@@ -6,17 +6,17 @@
 #    By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/01 08:54:19 by elahyani          #+#    #+#              #
-#    Updated: 2021/02/01 09:13:35 by elahyani         ###   ########.fr        #
+#    Updated: 2021/02/05 10:55:45 by elahyani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo_one.a
 
-SRCS = philo_one.c
+SRCS = philo_one.c ft_atoi.c
 
 OBJ = $(SRCS:.c=.o)
 
-LINKERFLAG = -Wall -Wextra -Werror -lpthread -c
+LINKERFLAG = -Wall -Wextra -Werror -c
 
 MAIN = philo_one.c
 
@@ -28,7 +28,7 @@ $(NAME):	$(OBJ)
 			@echo Done!
 
 %.o: %.c
-		@gcc $(LINKERFLAG) $< -o $@
+		@gcc -lpthread $(LINKERFLAG) $< -o $@
 
 clean:
 		@rm -f *.o
