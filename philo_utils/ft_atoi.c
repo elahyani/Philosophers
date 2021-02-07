@@ -6,11 +6,11 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:16:02 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/05 10:53:16 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/07 11:43:26 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "../philo_one/philo_one.h"
 
 static int		max_min(long res, int sign)
 {
