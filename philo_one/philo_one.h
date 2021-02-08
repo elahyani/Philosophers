@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/07 11:50:48 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/08 18:16:18 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,26 @@
 # define SLEEP_A	" is sleeping\n"
 # define THINK_A	" is thinking\n"
 
-typedef struct			s_ph_det
+typedef struct			s_details
 {
 	int					id;
-	int					start;
 	int					nb_eat;
+	int					start_time;
 	int					nb_of_philos;
 	long int			time_to_die;
 	long int			time_to_eat;
 	long int			time_to_sleep;
-	void				**status;
 	pthread_t			*thread;
-	pthread_mutex_t		*fork;
-	pthread_mutex_t		die;
-	pthread_mutex_t		fd_stdout;
-}						t_ph_det;
+	pthread_mutex_t		*forks;
+	pthread_mutex_t		*die;
+	pthread_mutex_t		*msg;
+	struct s_details	*next;
+	struct s_details	*prev;
+}						t_details;
 
 typedef struct			s_philo
 {
-	struct s_ph_det		*ph_det;
+	struct s_details	*ph_det;
 	int					index;
 	int					count;
 }						t_philo;
