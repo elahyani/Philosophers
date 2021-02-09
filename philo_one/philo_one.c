@@ -30,7 +30,6 @@ long	get_time(void)
 void	*philo_actions(void *val)
 {
 	t_philo	*philo;
-	pthread_t	checker;
 
 	philo = (t_philo *)val;
 	while (1)
@@ -38,7 +37,7 @@ void	*philo_actions(void *val)
 		get_forks(philo);
 		philo_eating(philo);
 		philo_sleeping(philo);
-		philo_thinking(philo);
+		// philo_thinking(philo);
 	}
 	return (0);
 }
@@ -46,17 +45,18 @@ void	*philo_actions(void *val)
 void	set_philos(t_dtls *dtls)
 {
 	int		i;
-	pthread_t	eat_checker;
 
 	i = -1;
 	dtls->start_time = get_time();
+	pthread_mutex_lock(&dtls->philo->mutex);
 	while (++i < dtls->nb_of_philos)
 	{
 		pthread_create(&dtls->thread, NULL, &philo_actions, (void *)(&dtls->philo[i]));
 		pthread_detach(dtls->thread);
 		usleep(100);
 	}
-	exit (0);
+	pthread_mutex_lock(&dtls->philo->mutex);
+	pthread_mutex_unlock(&dtls->philo->mutex);
 }
 
 
