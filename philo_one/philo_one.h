@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/09 19:03:37 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/09 19:11:09 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,12 @@ void				ft_putstr(char *s);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_putnbr(int n);
 int					ft_isdigit(int c);
-
+void				get_forks(t_philo *philo);
+void				philo_eating(t_philo *philo);
+void				philo_sleeping(t_philo *philo);
+void				philo_thinking(t_philo *philo);
+long				get_time(void);
+int					ft_mutexes_init(t_dtls *dtls);
+int					ft_philos_init(t_dtls *dtls);
+int					ft_init(t_dtls *dtls, int ac, char **av);
 #endif
