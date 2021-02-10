@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/09 19:10:38 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/10 10:20:04 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int		ft_mutexes_init(t_dtls *dtls)
 	int		i;
 
 	i = -1;
-	pthread_mutex_init(&dtls->mutex_die, NULL);
 	pthread_mutex_init(&dtls->mutex_msg, NULL);
+	pthread_mutex_init(&dtls->mutex_die, NULL);
 	if (!(dtls->mutex_forks = malloc(sizeof(pthread_mutex_t) * (dtls->nb_of_philos))))
 		return (1);
 	while (++i < dtls->nb_of_philos)
@@ -51,7 +51,6 @@ int		ft_philos_init(t_dtls *dtls)
 
 int		ft_init(t_dtls *dtls, int ac, char **av)
 {
-	// dtls = malloc(sizeof(t_dtls *));
 	dtls->nb_of_philos = ft_atoi(av[1]);
 	dtls->time_to_die = ft_atoi(av[2]);
 	dtls->time_to_eat = ft_atoi(av[3]);
@@ -59,6 +58,7 @@ int		ft_init(t_dtls *dtls, int ac, char **av)
 	dtls->nb_must_eat = 0;
 	(ac == 6) ? dtls->nb_must_eat = ft_atoi(av[5]) : 0;
 	dtls->mutex_forks = NULL;
+	dtls->start_time = get_time();
 	if (!(dtls->philo =  malloc(sizeof(t_philo) * (dtls->nb_of_philos + 1))))
 		return (1);
 	if (ft_philos_init(dtls))

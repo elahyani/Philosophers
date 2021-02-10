@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 08:27:01 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/09 19:10:23 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/10 10:17:06 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ void	*philo_actions(void *val)
 	t_philo	*philo;
 
 	philo = (t_philo *)val;
+	philo->start = get_time();
+	philo->end = philo->start + philo->dtls->time_to_die;
 	while (1)
 	{
 		get_forks(philo);
 		philo_eating(philo);
 		philo_sleeping(philo);
-		// philo_thinking(philo);
 	}
 	return (0);
 }
@@ -47,19 +48,17 @@ void	set_philos(t_dtls *dtls)
 	int		i;
 
 	i = -1;
-	dtls->start_time = get_time();
-	pthread_mutex_lock(&dtls->philo->mutex);
+	// dtls->start_time = get_time();
+	pthread_mutex_lock(&dtls->mutex_die);
 	while (++i < dtls->nb_of_philos)
 	{
 		pthread_create(&dtls->thread, NULL, &philo_actions, (void *)(&dtls->philo[i]));
 		pthread_detach(dtls->thread);
 		usleep(100);
 	}
-	pthread_mutex_lock(&dtls->philo->mutex);
-	pthread_mutex_unlock(&dtls->philo->mutex);
+	pthread_mutex_lock(&dtls->mutex_die);
+	pthread_mutex_unlock(&dtls->mutex_die);
 }
-
-
 
 int		args_checker(int ac, char **av)
 {
