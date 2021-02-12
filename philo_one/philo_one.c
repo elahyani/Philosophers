@@ -27,43 +27,61 @@ long	get_time(void)
 	return (tm.tv_sec * 1000 + tm.tv_usec / 1000);
 }
 
-// void	*ph_checker(void	*val)
-// {
-// 	t_philo	*philo;
+void	*ph_checker(void	*val)
+{
+	t_philo	*philo;
 
-// 	philo = (t_philo *)val;
-// 	return (0);
-// }
+	philo = (t_philo *)val;
+	while (1)
+	{
+		pthread_mutex_unlock(&philo->philo_mutex);
+		if (!philo->ph_is_eating && get_time() > philo->end)
+		{
+			pthread_mutex_lock(&philo->details->mutex_msg);
+			printf("%ld\t%d died\n", get_time() - philo->details->start_time, philo->id + 1);
+			pthread_mutex_unlock(&philo->philo_mutex);
+			pthread_mutex_unlock(&philo->details->mutex_die);
+			return (0);
+		}
+		pthread_mutex_unlock(&philo->philo_mutex);
+		usleep(1000);
+	}
+	return (0);
+}
 
 void	*check_count(void	*val)
 {
 	t_details	*details;
-	t_philo	*philo;
 	int		i;
 	int		j;
 	int		nbf;
 
 	nbf = 0;
-	i = -1;
+	i = 0;
 	details = (t_details *)val;
-	philo = details->philo;
 	while (1)
 	{
-		if (philo->eat_cnt_reached)
+		if (details->philo[i].eat_cnt_reached)
 		{
 			nbf++;
-			printf("nbf = %d\n", nbf);
-			philo->eat_cnt_reached = 0;
+			printf("nbf = %d\n",nbf);
+			details->philo[i].eat_cnt_reached = 0;
+			i++;
 		}
-		if (nbf == philo->details->nb_of_philos)
+		if (i == details->nb_of_philos)
+			i = 0;
+		if (nbf == details->nb_of_philos)
 		{
+			i = -1;
 			while (++i < details->nb_of_philos)
-				pthread_mutex_lock(&philo[i].eat_mutex);
+				pthread_mutex_lock(&details->philo[i].eat_mutex);
+			puts("rule 1");
 			break ;
 		}
 	}
 	pthread_mutex_lock(&details->mutex_msg);
 	printf("%ld\treached eat count limit\n", get_time() - details->start_time);
+	pthread_mutex_unlock(&details->mutex_msg);
 	pthread_mutex_unlock(&details->mutex_die);
 	return (0);
 }
@@ -76,8 +94,8 @@ void	*philo_actions(void *val)
 	philo = (t_philo *)val;
 	philo->start = get_time();
 	philo->end = philo->start + philo->details->time_to_die;
-	// pthread_create(&p_checker, NULL, &ph_checker, (void *)philo);
-	// pthread_detach(p_checker);
+	pthread_create(&p_checker, NULL, &ph_checker, (void *)philo);
+	pthread_detach(p_checker);
 	while (1)
 	{
 		get_forks(philo);
