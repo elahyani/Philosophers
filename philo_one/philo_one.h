@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/12 16:59:22 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/12 19:08:41 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct			s_philo
 	long				end;
 	long				start;
 	int					ph_is_eating;
+	int					nb_must_eat;
 	int					left_fork;
 	int					right_fork;
 	int					eat_cnt_reached;

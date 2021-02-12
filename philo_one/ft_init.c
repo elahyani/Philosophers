@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/12 17:00:39 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/12 19:08:53 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_philo		*ft_philos_init(t_details *details)
 		philo[i].left_fork = i;
 		philo[i].right_fork = (i + 1) % details->nb_of_philos;
 		philo[i].eat_cnt_reached = 0;
+		philo[i].nb_must_eat = details->nb_must_eat;
 		philo[i].details = details;
 		pthread_mutex_init(&philo[i].philo_mutex, NULL);
 		pthread_mutex_init(&philo[i].eat_mutex, NULL);

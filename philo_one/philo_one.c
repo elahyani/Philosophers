@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 08:27:01 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/12 17:05:35 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/12 19:20:21 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,28 @@ void	*check_count(void	*val)
 	t_philo	*philo;
 	int		i;
 	int		j;
+	int		nbf;
 
+	nbf = 0;
 	i = -1;
 	details = (t_details *)val;
 	philo = details->philo;
 	while (1)
 	{
-		// if (!details->nb_must_eat)
 		if (philo->eat_cnt_reached)
 		{
+			nbf++;
+			printf("nbf = %d\n", nbf);
+			philo->eat_cnt_reached = 0;
+		}
+		if (nbf == philo->details->nb_of_philos)
+		{
 			while (++i < details->nb_of_philos)
-				pthread_mutex_lock(&details->philo[i].eat_mutex);
+				pthread_mutex_lock(&philo[i].eat_mutex);
 			break ;
 		}
 	}
+	pthread_mutex_lock(&details->mutex_msg);
 	printf("%ld\treached eat count limit\n", get_time() - details->start_time);
 	pthread_mutex_unlock(&details->mutex_die);
 	return (0);
@@ -75,11 +83,12 @@ void	*philo_actions(void *val)
 		get_forks(philo);
 		philo_eating(philo);
 		philo_sleeping(philo);
-		if (philo->details->nb_must_eat == 0)
+		if (philo->nb_must_eat == 0)
 		{
 			philo->eat_cnt_reached = 1;
 			break ;
 		}
+		usleep(100);
 	}
 	return (0);
 }
