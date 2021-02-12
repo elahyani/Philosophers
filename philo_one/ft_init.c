@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/10 10:20:04 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/12 12:01:39 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,26 @@ int		ft_mutexes_init(t_dtls *dtls)
 	return (0);
 }
 
-int		ft_philos_init(t_dtls *dtls)
+t_philo		*ft_philos_init(t_dtls *dtls)
 {
 	int		i;
 	t_philo	*philo;
 	
 	i = -1;
-	philo = (t_philo *)dtls->philo;
+	philo = dtls->philo;
 	while (++i < dtls->nb_of_philos)
 	{
 		philo[i].ph_is_eating = 0;
 		philo[i].id = i;
 		philo[i].left_fork = i;
 		philo[i].right_fork = (i + 1) % dtls->nb_of_philos;
-		philo[i].eat_cnt_times = 0;
+		philo[i].eat_cnt_reached = 0;
 		philo[i].dtls = dtls;
-		pthread_mutex_init(&philo[i].mutex, NULL);
-		pthread_mutex_init(&philo[i].mutex_eat, NULL);
-		pthread_mutex_lock(&philo[i].mutex_eat);
+		pthread_mutex_init(&philo[i].philo_mutex, NULL);
+		pthread_mutex_init(&philo[i].eat_mutex, NULL);
+		pthread_mutex_lock(&philo[i].eat_mutex);
 	}
-	dtls->philo = philo;
-	return (0);
+	return (philo);
 }
 
 int		ft_init(t_dtls *dtls, int ac, char **av)
@@ -61,8 +60,7 @@ int		ft_init(t_dtls *dtls, int ac, char **av)
 	dtls->start_time = get_time();
 	if (!(dtls->philo =  malloc(sizeof(t_philo) * (dtls->nb_of_philos + 1))))
 		return (1);
-	if (ft_philos_init(dtls))
-		return (1);
+	dtls->philo = ft_philos_init(dtls);
 	if (ft_mutexes_init(dtls))
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/10 10:05:45 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/12 11:58:18 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,14 @@ typedef struct		s_dtls
 typedef struct		s_philo
 {
 	int				id;
-	long			last_time_eat;
 	long			end;
 	long			start;
-	int				is_eating;
 	int				ph_is_eating;
 	int				left_fork;
 	int				right_fork;
-	int				index;
-	int				eat_cnt_times;
-	pthread_mutex_t	mutex;
-	pthread_mutex_t	mutex_eat;
+	int				eat_cnt_reached;
+	pthread_mutex_t	philo_mutex;
+	pthread_mutex_t	eat_mutex;
 	struct s_dtls	*dtls;
 }					t_philo;
 
@@ -69,6 +66,6 @@ void				philo_sleeping(t_philo *philo);
 void				philo_thinking(t_philo *philo);
 long				get_time(void);
 int					ft_mutexes_init(t_dtls *dtls);
-int					ft_philos_init(t_dtls *dtls);
+t_philo				*ft_philos_init(t_dtls *dtls);
 int					ft_init(t_dtls *dtls, int ac, char **av);
 #endif
