@@ -1,0 +1,4 @@
+./philo_one 3 800 200 200 2
+./philo_one 4 410 200 200 2
+./philo_one 4 310 200 200 2
+./philo_one 5 800 200 200

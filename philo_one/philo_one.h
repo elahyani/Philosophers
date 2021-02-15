@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/12 19:08:41 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/15 09:40:23 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@
 
 typedef struct			s_details
 {
-	int					nb_must_eat;
-	long				start_time;
 	int					nb_of_philos;
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
-	pthread_t			thread;
+	int					nb_must_eat;
+	long				start_time;
 	pthread_mutex_t		*mutex_forks;
-	pthread_mutex_t		mutex_die;
-	pthread_mutex_t		mutex_msg;
+	pthread_mutex_t		*mutex_die;
+	pthread_mutex_t		*mutex_msg;
 	struct s_philo		*philo;
 }						t_details;
 
@@ -50,8 +49,8 @@ typedef struct			s_philo
 	int					left_fork;
 	int					right_fork;
 	int					eat_cnt_reached;
-	pthread_mutex_t		philo_mutex;
-	pthread_mutex_t		eat_mutex;
+	pthread_mutex_t		*philo_mutex;
+	pthread_mutex_t		*eat_mutex;
 	struct s_details	*details;
 }						t_philo;
 

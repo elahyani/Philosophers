@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 08:27:01 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/12 19:20:21 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/15 12:59:16 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ void	*ph_checker(void	*val)
 	philo = (t_philo *)val;
 	while (1)
 	{
-		pthread_mutex_unlock(&philo->philo_mutex);
-		if (!philo->ph_is_eating && get_time() > philo->end)
+		pthread_mutex_unlock(philo->philo_mutex);
+		if (!philo->ph_is_eating && !philo->eat_cnt_reached && get_time() > philo->end)
 		{
-			pthread_mutex_lock(&philo->details->mutex_msg);
+			pthread_mutex_lock(philo->details->mutex_msg);
 			printf("%ld\t%d died\n", get_time() - philo->details->start_time, philo->id + 1);
-			pthread_mutex_unlock(&philo->philo_mutex);
-			pthread_mutex_unlock(&philo->details->mutex_die);
+			pthread_mutex_unlock(philo->philo_mutex);
+			pthread_mutex_unlock(philo->details->mutex_die);
 			return (0);
 		}
-		pthread_mutex_unlock(&philo->philo_mutex);
+		pthread_mutex_unlock(philo->philo_mutex);
 		usleep(1000);
 	}
 	return (0);
@@ -64,8 +64,6 @@ void	*check_count(void	*val)
 		if (details->philo[i].eat_cnt_reached)
 		{
 			nbf++;
-			printf("nbf = %d\n",nbf);
-			details->philo[i].eat_cnt_reached = 0;
 			i++;
 		}
 		if (i == details->nb_of_philos)
@@ -74,15 +72,13 @@ void	*check_count(void	*val)
 		{
 			i = -1;
 			while (++i < details->nb_of_philos)
-				pthread_mutex_lock(&details->philo[i].eat_mutex);
-			puts("rule 1");
+				pthread_mutex_lock(details->philo[i].eat_mutex);
 			break ;
 		}
 	}
-	pthread_mutex_lock(&details->mutex_msg);
+	pthread_mutex_lock(details->mutex_msg);
 	printf("%ld\treached eat count limit\n", get_time() - details->start_time);
-	pthread_mutex_unlock(&details->mutex_msg);
-	pthread_mutex_unlock(&details->mutex_die);
+	pthread_mutex_unlock(details->mutex_die);
 	return (0);
 }
 
@@ -113,7 +109,8 @@ void	*philo_actions(void *val)
 
 void	set_philos(t_details *details)
 {
-	int		i;
+	int			i;
+	pthread_t	thread;
 	pthread_t	c_cheker;
 	
 	i = -1;
@@ -122,15 +119,15 @@ void	set_philos(t_details *details)
 		pthread_create(&c_cheker, NULL, &check_count, (void*)details);
 		pthread_detach(c_cheker);
 	}
-	pthread_mutex_lock(&details->mutex_die);
+	pthread_mutex_lock(details->mutex_die);
 	while (++i < details->nb_of_philos)
 	{
-		pthread_create(&details->thread, NULL, &philo_actions, (void *)(&details->philo[i]));
-		pthread_detach(details->thread);
+		pthread_create(&thread, NULL, &philo_actions, (void *)(&details->philo[i]));
+		pthread_detach(thread);
 		usleep(100);
 	}
-	pthread_mutex_lock(&details->mutex_die);
-	pthread_mutex_unlock(&details->mutex_die);
+	pthread_mutex_lock(details->mutex_die);
+	pthread_mutex_unlock(details->mutex_die);
 }
 
 int		args_checker(int ac, char **av)
@@ -142,7 +139,7 @@ int		args_checker(int ac, char **av)
 	j = 0;
 	if (ac < 5 || ac > 6)
 		return (1);
-	if (ft_atoi(av[1]) < 2)
+	if (ft_atoi(av[1]) < 2 || ft_atoi(av[2]) < 60 || ft_atoi(av[3]) < 60 || ft_atoi(av[4]) < 60)
 		return (1);
 	while (av[++i])
 	{
@@ -157,14 +154,36 @@ int		args_checker(int ac, char **av)
 	return (0);
 }
 
+void	clean_all(t_details *details)
+{
+	int	i;
+
+	i = -1;
+	while (++i < details->nb_of_philos)
+	{
+		pthread_mutex_destroy(&details->mutex_forks[i]);
+		pthread_mutex_destroy(&details->philo[i].philo_mutex);
+		pthread_mutex_destroy(&details->philo[i].eat_mutex);
+	}
+	free(details->mutex_forks);
+	free(details->philo->eat_mutex);
+	free(details->philo->philo_mutex);
+	pthread_mutex_destroy(&details->mutex_msg);
+	free(details->mutex_msg);
+	pthread_mutex_destroy(&details->mutex_die);
+	free(details->mutex_die);
+}
+
 int		main(int ac, char **av)
 {
-	t_details	details;
+	t_details	*details;
 
+	details = malloc(sizeof(t_details));
 	if (args_checker(ac, av))
 		return (ft_error("error:\tbad arguments."));
-	if (ft_init(&details, ac, av))
+	if (ft_init(details, ac, av))
 		return (ft_error("error:\tinitialisation failed."));
-	set_philos(&details);
+	set_philos(details);
+	clean_all(details);
 	return (0);
 }

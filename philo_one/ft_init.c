@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/12 19:08:53 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/15 09:40:47 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int			ft_mutexes_init(t_details *details)
 	int		i;
 
 	i = -1;
-	pthread_mutex_init(&details->mutex_msg, NULL);
-	pthread_mutex_init(&details->mutex_die, NULL);
+	details->mutex_die = malloc(sizeof(pthread_mutex_t));
+	details->mutex_msg = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(details->mutex_die, NULL);
+	pthread_mutex_init(details->mutex_msg, NULL);
 	if (!(details->mutex_forks =
 			malloc(sizeof(pthread_mutex_t) * (details->nb_of_philos))))
 		return (1);
@@ -43,14 +45,16 @@ t_philo		*ft_philos_init(t_details *details)
 		philo[i].eat_cnt_reached = 0;
 		philo[i].nb_must_eat = details->nb_must_eat;
 		philo[i].details = details;
-		pthread_mutex_init(&philo[i].philo_mutex, NULL);
-		pthread_mutex_init(&philo[i].eat_mutex, NULL);
-		pthread_mutex_lock(&philo[i].eat_mutex);
+		philo[i].philo_mutex = malloc(sizeof(pthread_mutex_t));
+		philo[i].eat_mutex = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(philo[i].philo_mutex, NULL);
+		pthread_mutex_init(philo[i].eat_mutex, NULL);
+		pthread_mutex_lock(philo[i].eat_mutex);
 	}
 	return (philo);
 }
 
-int			ft_init(t_details *details, int ac, char **av)
+int		ft_init(t_details *details, int ac, char **av)
 {
 	details->nb_of_philos = ft_atoi(av[1]);
 	details->time_to_die = ft_atoi(av[2]);
