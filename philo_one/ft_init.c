@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 16:07:19 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/15 17:23:27 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_philo		*ft_philos_init(t_details *details)
 	return (philo);
 }
 
-int		ft_init(t_details *details, int ac, char **av)
+int			ft_init(t_details *details, int ac, char **av)
 {
 	details->nb_of_philos = ft_atoi(av[1]);
 	details->time_to_die = ft_atoi(av[2]);
