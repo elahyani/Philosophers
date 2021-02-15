@@ -16,13 +16,11 @@ void	get_forks(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->details->mutex_forks[philo->left_fork]);
 	pthread_mutex_lock(philo->details->mutex_msg);
-	printf("%ld\t%d %s\n", get_time() -
-	philo->details->start_time, philo->id + 1, FORK_A);
+	printf("%ld\t%d %s\n", get_time() - philo->details->start_time, philo->id + 1, FORK_A);
 	pthread_mutex_unlock(philo->details->mutex_msg);
 	pthread_mutex_lock(&philo->details->mutex_forks[philo->right_fork]);
 	pthread_mutex_lock(philo->details->mutex_msg);
-	printf("%ld\t%d %s\n", get_time() -
-	philo->details->start_time, philo->id + 1, FORK_A);
+	printf("%ld\t%d %s\n", get_time() - philo->details->start_time, philo->id + 1, FORK_A);
 	pthread_mutex_unlock(philo->details->mutex_msg);
 }
 
@@ -33,15 +31,18 @@ void	philo_eating(t_philo *philo)
 	philo->start = get_time();
 	philo->end = philo->start + philo->details->time_to_die;
 	pthread_mutex_lock(philo->details->mutex_msg);
-	printf("%ld\t%d %s\n", get_time() -
-	philo->details->start_time, philo->id + 1, EAT_A);
+	printf("%ld\t%d %s\n", get_time() - philo->details->start_time, philo->id + 1, EAT_A);
 	pthread_mutex_unlock(philo->details->mutex_msg);
 	usleep(philo->details->time_to_eat * 1000);
 	if (philo->nb_must_eat != -1)
+	{
+		// printf("0------------> %d\n", philo[0].nb_must_eat);
+		// printf("1------------> %d\n", philo[1].nb_must_eat);
 		philo->nb_must_eat -= 1;
+	}
 	philo->ph_is_eating = 0;
 	pthread_mutex_unlock(philo->philo_mutex);
-	pthread_mutex_unlock(philo->eat_mutex);
+	// pthread_mutex_unlock(philo->eat_mutex);
 	pthread_mutex_unlock(&philo->details->mutex_forks[philo->left_fork]);
 	pthread_mutex_unlock(&philo->details->mutex_forks[philo->right_fork]);
 }
@@ -49,12 +50,10 @@ void	philo_eating(t_philo *philo)
 void	philo_sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(philo->details->mutex_msg);
-	printf("%ld\t%d %s\n", get_time() -
-	philo->details->start_time, philo->id + 1, SLEEP_A);
+	printf("%ld\t%d %s\n", get_time() - philo->details->start_time, philo->id + 1, SLEEP_A);
 	pthread_mutex_unlock(philo->details->mutex_msg);
 	usleep(philo->details->time_to_sleep * 1000);
 	pthread_mutex_lock(philo->details->mutex_msg);
-	printf("%ld\t%d %s\n", get_time() -
-	philo->details->start_time, philo->id + 1, THINK_A);
+	printf("%ld\t%d %s\n", get_time() - philo->details->start_time, philo->id + 1, THINK_A);
 	pthread_mutex_unlock(philo->details->mutex_msg);
 }

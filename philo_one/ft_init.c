@@ -51,7 +51,7 @@ t_philo		*ft_philos_init(t_details *details)
 		philo[i].eat_mutex = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(philo[i].philo_mutex, NULL);
 		pthread_mutex_init(philo[i].eat_mutex, NULL);
-		pthread_mutex_lock(philo[i].eat_mutex);
+		// pthread_mutex_lock(philo[i].eat_mutex);
 	}
 	return (philo);
 }

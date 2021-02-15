@@ -49,17 +49,16 @@ void	*check_count(void *val)
 	details = (t_details *)val;
 	while (1)
 	{
-		if (details->philo[i].eat_cnt_reached && (nbf++))
-			i++;
 		if (i == details->nb_of_philos)
 			i = 0;
-		if (nbf == details->nb_of_philos)
+		if (details->philo[i].eat_cnt_reached == 1 && details->philo[i].nb_must_eat == 0)
 		{
-			i = -1;
-			while (++i < details->nb_of_philos)
-				pthread_mutex_lock(details->philo[i].eat_mutex);
-			break ;
+			nbf++;
+			details->philo[i].nb_must_eat = -1;
 		}
+		if (nbf == details->nb_of_philos)
+			break ;
+		i++;
 	}
 	pthread_mutex_lock(details->mutex_msg);
 	printf("%ld\treached eat count limit\n", get_time() - details->start_time);
@@ -87,7 +86,6 @@ void	*philo_actions(void *val)
 			philo->eat_cnt_reached = 1;
 			break ;
 		}
-		usleep(100);
 	}
 	return (0);
 }
