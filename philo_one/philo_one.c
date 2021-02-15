@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 08:27:01 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 12:59:16 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/15 16:57:54 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ void	*ph_checker(void	*val)
 	philo = (t_philo *)val;
 	while (1)
 	{
-		pthread_mutex_unlock(philo->philo_mutex);
+		if (pthread_mutex_unlock(philo->philo_mutex) < 0)
+			break ;
 		if (!philo->ph_is_eating && !philo->eat_cnt_reached && get_time() > philo->end)
 		{
-			pthread_mutex_lock(philo->details->mutex_msg);
+			if (pthread_mutex_lock(philo->details->mutex_msg) < 0)
+				break ;
 			printf("%ld\t%d died\n", get_time() - philo->details->start_time, philo->id + 1);
 			pthread_mutex_unlock(philo->philo_mutex);
 			pthread_mutex_unlock(philo->details->mutex_die);
@@ -51,21 +53,17 @@ void	*ph_checker(void	*val)
 
 void	*check_count(void	*val)
 {
+	int			i;
+	int			nbf;
 	t_details	*details;
-	int		i;
-	int		j;
-	int		nbf;
 
-	nbf = 0;
 	i = 0;
+	nbf = 0;
 	details = (t_details *)val;
 	while (1)
 	{
-		if (details->philo[i].eat_cnt_reached)
-		{
-			nbf++;
+		if (details->philo[i].eat_cnt_reached && (nbf++))
 			i++;
-		}
 		if (i == details->nb_of_philos)
 			i = 0;
 		if (nbf == details->nb_of_philos)
@@ -154,6 +152,12 @@ int		args_checker(int ac, char **av)
 	return (0);
 }
 
+void	ft_free(void *to_free)
+{
+	if (to_free)
+		free(to_free);
+}
+
 void	clean_all(t_details *details)
 {
 	int	i;
@@ -162,16 +166,18 @@ void	clean_all(t_details *details)
 	while (++i < details->nb_of_philos)
 	{
 		pthread_mutex_destroy(&details->mutex_forks[i]);
-		pthread_mutex_destroy(&details->philo[i].philo_mutex);
-		pthread_mutex_destroy(&details->philo[i].eat_mutex);
+		pthread_mutex_destroy(details->philo[i].philo_mutex);
+		ft_free(details->philo[i].philo_mutex);
+		pthread_mutex_destroy(details->philo[i].eat_mutex);
+		ft_free(details->philo[i].eat_mutex);
 	}
-	free(details->mutex_forks);
-	free(details->philo->eat_mutex);
-	free(details->philo->philo_mutex);
-	pthread_mutex_destroy(&details->mutex_msg);
-	free(details->mutex_msg);
-	pthread_mutex_destroy(&details->mutex_die);
-	free(details->mutex_die);
+	ft_free(details->mutex_forks);
+	pthread_mutex_destroy(details->mutex_msg);
+	ft_free(details->mutex_msg);
+	pthread_mutex_destroy(details->mutex_die);
+	ft_free(details->mutex_die);
+	free(details->philo);
+	ft_free(details);
 }
 
 int		main(int ac, char **av)

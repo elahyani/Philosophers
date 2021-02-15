@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 09:40:47 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/15 16:07:19 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int			ft_mutexes_init(t_details *details)
 	int		i;
 
 	i = -1;
-	details->mutex_die = malloc(sizeof(pthread_mutex_t));
-	details->mutex_msg = malloc(sizeof(pthread_mutex_t));
+	if (!(details->mutex_die = malloc(sizeof(pthread_mutex_t))))
+		return (1);
+	if (!(details->mutex_msg = malloc(sizeof(pthread_mutex_t))))
+		return (1);
 	pthread_mutex_init(details->mutex_die, NULL);
 	pthread_mutex_init(details->mutex_msg, NULL);
 	if (!(details->mutex_forks =
