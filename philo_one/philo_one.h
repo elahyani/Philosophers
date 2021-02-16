@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 17:18:24 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:09:21 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct			s_philo
 	int					right_fork;
 	int					eat_cnt_reached;
 	pthread_mutex_t		*philo_mutex;
-	pthread_mutex_t		*eat_mutex;
 	struct s_details	*details;
 }						t_philo;
 

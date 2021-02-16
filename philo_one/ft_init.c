@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 19:10:10 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 17:23:27 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:08:58 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ t_philo		*ft_philos_init(t_details *details)
 		philo[i].nb_must_eat = details->nb_must_eat;
 		philo[i].details = details;
 		philo[i].philo_mutex = malloc(sizeof(pthread_mutex_t));
-		philo[i].eat_mutex = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(philo[i].philo_mutex, NULL);
-		pthread_mutex_init(philo[i].eat_mutex, NULL);
-		// pthread_mutex_lock(philo[i].eat_mutex);
 	}
 	return (philo);
 }

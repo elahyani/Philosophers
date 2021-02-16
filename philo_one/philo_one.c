@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:17:36 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 17:21:07 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/16 09:52:01 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	*check_count(void *val)
 	{
 		if (i == details->nb_of_philos)
 			i = 0;
-		if (details->philo[i].eat_cnt_reached == 1 && details->philo[i].nb_must_eat == 0)
+		if (details->philo[i].eat_cnt_reached == 1 &&
+		details->philo[i].nb_must_eat == 0)
 		{
 			nbf++;
 			details->philo[i].nb_must_eat = -1;
