@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 10:51:05 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/16 10:09:21 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/17 17:41:04 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_philo					*ft_philos_init(t_details *details);
 int						ft_init(t_details *details, int ac, char **av);
 void					clean_all(t_details *details);
 int						ft_error(char	*err_msg);
-long					get_time(void);
 void					set_philos(t_details *details);
 
 #endif
