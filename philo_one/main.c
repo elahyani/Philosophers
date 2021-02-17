@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 08:27:01 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/15 17:21:30 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/17 11:57:25 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int		args_checker(int ac, char **av)
 	j = 0;
 	if (ac < 5 || ac > 6)
 		return (1);
-	if (ft_atoi(av[1]) < 2 || ft_atoi(av[2]) < 60 || ft_atoi(av[3]) < 60
-	|| ft_atoi(av[4]) < 60)
+	if (ft_atoi(av[1]) < 2 || ft_atoi(av[1]) > 200 || ft_atoi(av[2]) < 60
+	|| ft_atoi(av[3]) < 60 || ft_atoi(av[4]) < 60)
 		return (1);
 	while (av[++i])
 	{
