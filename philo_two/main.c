@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 11:50:43 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/17 17:45:48 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/19 19:02:03 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int		main(int ac, char **av)
 	t_details	*details;
 
 	details = malloc(sizeof(t_details));
-	if (args_check(ac, av))
-		return (ft_error("error:\tbad arguments.\n"));
+	if (args_checker(ac, av))
+		return (ft_error("error:\tbad arguments."));
 	if (ft_init(details, ac, av))
 		return (ft_error("error:\tinitialisation failed."));
 	set_philos(details);

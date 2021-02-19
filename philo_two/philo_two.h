@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 11:51:15 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/17 17:51:07 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/19 16:53:57 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct		s_details
 	long			time_to_sleep;
 	int				nb_must_eat;
 	long			start_time;
-	sem_t			sem_forks;
-	sem_t			sem_die;
-	sem_t			sem_msg;
+	sem_t			*sem_die;
+	sem_t			*sem_msg;
+	sem_t			*sem_forks;
 	struct s_philo	*philo;
 }					t_details;
 
@@ -47,16 +47,16 @@ typedef struct			s_philo
 	long				end;
 	int					ph_is_eating;
 	int					nb_must_eat;
-	int					left_fork;
-	int					right_fork;
+	int					forks;
 	int					eat_cnt_reached;
-	sem_t				*philo_sem;	
+	sem_t				*philo_sem;
 	struct s_details	*details;
 }						t_philo;
 
 int						ft_atoi(const char *str);
 int						ft_strlen(const char *s);
 int						ft_isdigit(int c);
+char					*ft_itoa(int n);
 long					get_time(void);
 void					get_forks(t_philo *philo);
 void					philo_eating(t_philo *philo);

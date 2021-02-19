@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 17:17:36 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/16 09:52:01 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/19 18:18:44 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*ph_checker(void *val)
 	philo = (t_philo *)val;
 	while (1)
 	{
-		if (pthread_mutex_unlock(philo->philo_mutex) < 0)
+		if (pthread_mutex_lock(philo->philo_mutex) < 0)
 			break ;
 		if (!philo->ph_is_eating && !philo->eat_cnt_reached &&
 		get_time() > philo->end)
