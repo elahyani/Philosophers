@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 16:55:17 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/19 19:00:42 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/20 12:21:28 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	*ph_checker(void *val)
 	{
 		if (sem_wait(philo->philo_sem) < 0)
 			break ;
-		if (!philo->ph_is_eating && !philo->eat_cnt_reached && get_time() > philo->end)
+		if (!philo->ph_is_eating && !philo->eat_cnt_reached &&
+		get_time() > philo->end)
 		{
-			sem_wait(philo->details->sem_msg);
-			printf("%ld\t%d died\n", get_time() - philo->details->start_time, philo->id + 1);
+			print_status(philo, DIE_A, 2);
 			sem_post(philo->philo_sem);
 			sem_post(philo->details->sem_die);
-			return (0);
+			break ;
 		}
 		sem_post(philo->philo_sem);
 		usleep(1000);
@@ -46,9 +46,9 @@ void	*check_count(void *val)
 	details = (t_details*)val;
 	while (1)
 	{
-		if (i == details->nb_of_philos)
-			i = 0;
-		if (details->philo[i].eat_cnt_reached == 1 && details->philo[i].nb_must_eat == 0)
+		i == details->nb_of_philos ? i = 0 : 0;
+		if (details->philo[i].eat_cnt_reached == 1 &&
+		details->philo[i].nb_must_eat == 0)
 		{
 			nbf++;
 			details->philo[i].nb_must_eat = -1;
@@ -57,8 +57,7 @@ void	*check_count(void *val)
 			break ;
 		i++;
 	}
-	sem_wait(details->sem_msg);
-	printf("%ld\treached eat count limit\n", get_time() - details->start_time);
+	print_status(details->philo, ELR_A, 1);
 	sem_post(details->sem_die);
 	return (0);
 }
@@ -91,19 +90,20 @@ void	set_philos(t_details *details)
 {
 	int			i;
 	pthread_t	thread;
-	// pthread_t	c_checker;
+	pthread_t	c_checker;
 
 	i = -1;
 	if (details->nb_must_eat > 0)
 	{
-		pthread_create(&thread, NULL, &check_count, (void*)details);
-		pthread_detach(thread);
+		pthread_create(&c_checker, NULL, &check_count, (void*)details);
+		pthread_detach(c_checker);
 	}
 	sem_wait(details->sem_die);
-	// details->start_time = get_time();
+	details->start_time = get_time();
 	while (++i < details->nb_of_philos)
 	{
-		pthread_create(&thread, NULL, &philo_actions, (void*)(&details->philo[i]));
+		pthread_create(&thread, NULL, &philo_actions,
+		(void*)(&details->philo[i]));
 		pthread_detach(thread);
 		usleep(100);
 	}

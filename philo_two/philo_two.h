@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 11:51:15 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/19 16:53:57 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/20 12:39:54 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,29 @@
 # define EAT_A		" is eating"
 # define SLEEP_A	" is sleeping"
 # define THINK_A	" is thinking"
+# define ELR_A		" reached eat count limit"
 
-typedef struct		s_details
+typedef struct			s_details
 {
-	int				nb_of_philos;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	int				nb_must_eat;
-	long			start_time;
-	sem_t			*sem_die;
-	sem_t			*sem_msg;
-	sem_t			*sem_forks;
-	struct s_philo	*philo;
-}					t_details;
+	int					nb_of_philos;
+	long				time_to_die;
+	long				time_to_eat;
+	long				time_to_sleep;
+	int					nb_must_eat;
+	int					stop;
+	long				start_time;
+	sem_t				*sem_die;
+	sem_t				*sem_msg;
+	sem_t				*sem_forks;
+	struct s_philo		*philo;
+}						t_details;
 
 typedef struct			s_philo
 {
 	int					id;
 	long				start;
 	long				end;
+	int					index;
 	int					ph_is_eating;
 	int					nb_must_eat;
 	int					forks;
@@ -68,4 +71,5 @@ int						ft_init(t_details *details, int ac, char **av);
 void					clean_all(t_details *details);
 int						ft_error(char	*err_msg);
 void					set_philos(t_details *details);
+void					print_status(t_philo *philo, char *action_type, int ecr);
 #endif
