@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:18:56 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/20 16:19:18 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/22 12:10:05 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_THREE_H
 
 # include <stdio.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
@@ -45,8 +46,10 @@ typedef struct			s_details
 typedef struct			s_philo
 {
 	int					id;
+	pid_t				pid;
 	long				start;
 	long				end;
+	sem_t				*eat_cnt;
 	int					index;
 	int					ph_is_eating;
 	int					nb_must_eat;
