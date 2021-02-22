@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:25:28 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/22 12:10:37 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/22 15:22:22 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void		ft_init_semaphores(t_details *details)
 {
 	sem_unlink("forks");
-	details->sem_forks = sem_open("forks", O_CREAT, 0666, details->nb_of_philos);
+	details->sem_forks = sem_open("forks", O_CREAT, 0666,
+	details->nb_of_philos);
 	sem_unlink("die");
 	details->sem_die = sem_open("die", O_CREAT, 0666, 1);
 	sem_unlink("msg");
@@ -48,7 +49,7 @@ t_philo		*ft_philos_init(t_details *details)
 	return (philo);
 }
 
-int		ft_init(t_details *details, int ac, char **av)
+int			ft_init(t_details *details, int ac, char **av)
 {
 	details->nb_of_philos = ft_atoi(av[1]);
 	details->time_to_die = ft_atoi(av[2]);

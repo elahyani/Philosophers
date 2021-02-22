@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:22:44 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/22 12:44:26 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/22 15:27:43 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,10 @@ void	*ph_checker(void *val)
 
 void	*check_count(void *val)
 {
-	// int			i;
 	int			nbf;
 	t_details	*details;
 
 	nbf = 0;
-	// i = 0;
 	details = (t_details*)val;
 	while (1)
 	{
@@ -79,27 +77,33 @@ void	*philo_actions(t_philo *philo)
 	return (0);
 }
 
-void	set_philos(t_details *details)
+void	create_c_checker(t_details *details)
 {
-	int			i;
 	pthread_t	c_checker;
 
-	i = -1;
 	if (details->nb_must_eat > 0)
 	{
 		pthread_create(&c_checker, NULL, &check_count, (void*)details);
 		pthread_detach(c_checker);
 	}
+}
+
+void	set_philos(t_details *details)
+{
+	int			i;
+
+	i = -1;
+	create_c_checker(details);
 	sem_wait(details->sem_die);
 	details->start_time = get_time();
 	while (++i < details->nb_of_philos)
 	{
 		if ((details->philo->pid = fork()) < 0)
-			exit (1) ;
+			exit(1);
 		if (details->philo->pid == 0)
 		{
 			philo_actions(&details->philo[i]);
-			exit (0);
+			exit(0);
 		}
 		usleep(100);
 	}
