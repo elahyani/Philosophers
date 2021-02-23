@@ -6,13 +6,13 @@
 #    By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 16:06:27 by elahyani          #+#    #+#              #
-#    Updated: 2021/02/22 09:51:13 by elahyani         ###   ########.fr        #
+#    Updated: 2021/02/23 11:44:33 by elahyani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo_three
 
-SRCS = philo_three.c ft_utils.c ft_init.c ft_clean.c philo_actions.c ft_itoa.c
+SRCS = philo_three.c ft_utils.c ft_init.c ft_clean.c philo_actions.c ft_itoa.c ft_msg.c
 
 LINKERFLAG = -Wall -Wextra -Werror
 

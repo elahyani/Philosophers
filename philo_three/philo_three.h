@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:18:56 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/22 15:19:32 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/23 11:44:11 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define PHILO_THREE_H
 
 # include <stdio.h>
-# include <signal.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
 # include <semaphore.h>
+# include <signal.h>
 
 # define FORK_A		" has taken a fork"
 # define DIE_A		" died"
@@ -49,12 +49,12 @@ typedef struct			s_philo
 	pid_t				pid;
 	long				start;
 	long				end;
-	sem_t				*eat_cnt;
 	int					index;
 	int					ph_is_eating;
 	int					nb_must_eat;
 	int					forks;
 	int					eat_cnt_reached;
+	sem_t				*eat_cnt;
 	sem_t				*philo_sem;
 	struct s_details	*details;
 }						t_philo;
@@ -67,7 +67,6 @@ long					get_time(void);
 void					get_forks(t_philo *philo);
 void					philo_eating(t_philo *philo);
 void					philo_sleeping(t_philo *philo);
-void					philo_thinking(t_philo *philo);
 int						ft_semaphores_init(t_details *details);
 t_philo					*ft_philos_init(t_details *details);
 int						ft_init(t_details *details, int ac, char **av);

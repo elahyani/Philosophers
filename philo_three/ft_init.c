@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:25:28 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/22 15:22:22 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/23 11:33:01 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int			ft_init(t_details *details, int ac, char **av)
 	details->time_to_eat = ft_atoi(av[3]);
 	details->time_to_sleep = ft_atoi(av[4]);
 	details->nb_must_eat = ac == 6 ? ft_atoi(av[5]) : -1;
-	details->sem_forks = NULL;
 	details->stop = 0;
 	details->start_time = get_time();
 	if (!(details->philo =

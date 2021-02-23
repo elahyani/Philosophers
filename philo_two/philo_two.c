@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 16:55:17 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/20 12:21:28 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/23 09:48:59 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	*ph_checker(void *val)
 			sem_post(philo->details->sem_die);
 			break ;
 		}
-		sem_post(philo->philo_sem);
+		if (sem_post(philo->philo_sem) < 0)
+			break ;
 		usleep(1000);
 	}
 	return (0);

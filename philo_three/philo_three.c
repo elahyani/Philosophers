@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 16:22:44 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/22 15:27:43 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/23 11:24:59 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	*ph_checker(void *val)
 			sem_post(philo->details->sem_die);
 			break ;
 		}
-		sem_post(philo->philo_sem);
+		if (sem_post(philo->philo_sem) < 0)
+			break ;
 		usleep(1000);
 	}
 	return (0);
@@ -98,9 +99,10 @@ void	set_philos(t_details *details)
 	details->start_time = get_time();
 	while (++i < details->nb_of_philos)
 	{
-		if ((details->philo->pid = fork()) < 0)
-			exit(1);
-		if (details->philo->pid == 0)
+		details->philo[i].pid = fork();
+		if ((details->philo[i].pid) < 0)
+			return ;
+		if (details->philo[i].pid == 0)
 		{
 			philo_actions(&details->philo[i]);
 			exit(0);
