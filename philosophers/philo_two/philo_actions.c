@@ -6,7 +6,7 @@
 /*   By: elahyani <elahyani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 17:03:08 by elahyani          #+#    #+#             */
-/*   Updated: 2021/02/24 09:10:22 by elahyani         ###   ########.fr       */
+/*   Updated: 2021/02/25 08:45:45 by elahyani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	print_status(t_philo *philo, char *type, int index)
 			stop = 1;
 		}
 		else if (index == 0 && !stop)
-				printf("%ld\t%d %s\n", get_time() -
-				philo->details->start_time, philo->id + 1, type);
+			printf("%ld\t%d %s\n", get_time() -
+			philo->details->start_time, philo->id + 1, type);
 		else if (index == 2)
 		{
 			printf("%ld\t%d %s\n", get_time() -
