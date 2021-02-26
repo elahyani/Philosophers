@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <fcntl.h>
 # include <semaphore.h>
 
 # define FORK_A		" has taken a fork"
